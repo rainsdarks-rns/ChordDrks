@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kordku – Catat Lirik & Chord</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">kord<span>ku</span></div>
+  <div class="header-actions">
+    <button class="btn btn-sm" onclick="exportTxt()">Export .txt</button>
+  </div>
+</header>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-title">Lagu Gue</span>
+      <button class="btn btn-sm btn-accent" onclick="openNewSongModal()">+ Baru</button>
+    </div>
+    <div class="song-list" id="songList"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" id="mainArea">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">🎸</div>
+      <div class="empty-title">Belum ada lagu</div>
+      <div class="empty-sub">Bikin lagu baru buat mulai nulis chord & lirik</div>
+      <button class="btn btn-accent" onclick="openNewSongModal()">+ Lagu Baru</button>
+    </div>
+
+    <div id="editorArea" style="display:none; flex:1; flex-direction:column; overflow:hidden; display:none;">
+      <div class="song-meta">
+        <input class="meta-input" id="songTitle" placeholder="Judul lagu..." oninput="saveCurrent()">
+        <input class="meta-input" id="songArtist" placeholder="Artis / penyanyi" oninput="saveCurrent()">
+      </div>
+
+      <div class="toolbar">
+        <span class="toolbar-label">Transpose</span>
+        <div class="transpose-controls">
+          <button class="transpose-btn" onclick="transpose(-1)">−</button>
+          <span class="transpose-key" id="transposeDisplay">C</span>
+          <button class="transpose-btn" onclick="transpose(1)">+</button>
+        </div>
+
+        <div style="flex:1"></div>
+
+        <span class="help-tip">Chord di atas · Lirik di bawah</span>
+        <button class="btn btn-sm btn-accent" onclick="addLine()">+ Baris</button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" id="tabEdit" onclick="switchTab('edit')">Edit</div>
+        <div class="tab" id="tabPreview" onclick="switchTab('preview')">Preview</div>
+      </div>
+
+      <div class="editor-wrap" id="editorWrap">
+        <div class="edit-mode" id="editMode"></div>
+        <div class="preview-mode" id="previewMode" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW SONG MODAL -->
+<div class="modal-overlay" id="newSongModal" style="display:none">
+  <div class="modal">
+    <h3>🎵 Lagu Baru</h3>
+    <div class="modal-field">
+      <label class="modal-label">Judul Lagu</label>
+      <input class="modal-input" id="newTitle" placeholder="e.g. Separuh Aku" onkeydown="if(event.key==='Enter')createSong()">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Artis (opsional)</label>
+      <input class="modal-input" id="newArtist" placeholder="e.g. Noah" onkeydown="if(event.key==='Enter')createSong()">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Batal</button>
+      <button class="btn btn-accent" onclick="createSong()">Buat</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
